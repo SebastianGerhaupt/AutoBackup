@@ -19,38 +19,34 @@ public class Logger
 			option = StandardOpenOption.APPEND;
 	}
 
-	public void logCopiedFiles(ArrayList<Path> copiedList)
+	public void logCopiedFiles(ArrayList<Path> copiedList, String content)
 	{
-		String content = lineSeparator + "Copied files:" + lineSeparator;
 		copiedList.forEach(path -> {
-			content.concat(path + lineSeparator);
+			content.concat(lineSeparator + path);
 		});
 		writeToFile(content);
 	}
 
-	public void logDirectoriesToCopy(TreeSet<Directory> filteredDirectories)
+	public void logDirectoriesToCopy(TreeSet<Directory> filteredDirectories, String content)
 	{
-		String content = "Directories to copy:" + lineSeparator;
 		filteredDirectories.forEach(directory -> {
-			content.concat(directory.getSourcePath() + "," + directory.getIsRecursive() + "->" + directory.getTargetPath() + lineSeparator);
+			content.concat(lineSeparator + directory.getSourcePath() + "," + directory.getIsRecursive() + "->" + directory.getTargetPath());
 		});
 		writeToFile(content);
 	}
 
-	public void logFilesToCopy(ArrayList<MyFile> files)
+	public void logFilesToCopy(ArrayList<MyFile> files, String content)
 	{
-		String content = lineSeparator + "Files to copy:" + lineSeparator;
 		files.forEach(file -> {
-			content.concat(file.getSourceFile() + "->" + file.getTargetFile() + lineSeparator);
+			content.concat(lineSeparator + file.getSourceFile() + "->" + file.getTargetFile());
 		});
 		writeToFile(content);
 	}
 
-	public void logFilteredDirectories(ArrayList<Directory> directories, String description)
+	public void logFilteredDirectories(ArrayList<Directory> directories, String content)
 	{
-		String content = lineSeparator + description + lineSeparator;
 		directories.forEach(directory -> {
-			content.concat(directory + lineSeparator);
+			content.concat(lineSeparator + directory);
 		});
 		writeToFile(content);
 	}
@@ -68,11 +64,10 @@ public class Logger
 		}
 	}
 
-	/*public void logCreatedDirectories(TreeSet<Path> createdList)
+	/*public void logCreatedDirectories(TreeSet<Path> createdList, String content/*"Created directories:"*)
 	{
-		String content = lineSeparator + "Created directories:" + lineSeparator;
 		createdList.forEach(path -> {
-			content.concat(path + lineSeparator);
+			content.concat(lineSeparator + path);
 		});
 		writeToFile(content);
 	}*/
