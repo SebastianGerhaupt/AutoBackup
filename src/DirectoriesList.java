@@ -48,9 +48,9 @@ public class DirectoriesList
 			{
 				while (scanner.hasNextLine())
 				{
-					final String directory = scanner.next().replace(":", "");
+					final String directory = scanner.next();
 					final boolean isRecursive = Boolean.parseBoolean(scanner.next());
-					sourceDirectories.add(new Directory(Paths.get(directory), isRecursive, Paths.get(targetPath, directory)));
+					sourceDirectories.add(new Directory(Paths.get(directory), isRecursive, Paths.get(targetPath, directory.replace(":", ""))));
 				}
 				scanner.close();
 			}

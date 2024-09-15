@@ -1,5 +1,3 @@
-C:\Users\gerha\Pictures,false
-C:\Users\gerha\Desktop,true
 C:\Users\gerha\Documents,false
-C:\Users\gerha\Documents\Java,true
-C:\Users\gerha\Downloads,false
+C:\Users\gerha\Documents\Bewerbung,true
+C:\Users\gerha\Documents\Bewerbung\Bilder,false
