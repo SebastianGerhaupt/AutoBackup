@@ -29,20 +29,20 @@ public class Logger
 		}
 	}
 
-	public void logCopiedFiles(ArrayList<Path> copiedList, boolean isNewParagraph)
+	public void logCopiedFiles(ArrayList<Path> copiedList)
 	{
 		final String description = "Copied files:";
-		StringBuilder content = new StringBuilder(isNewParagraph ? paragraph + description : description);
+		StringBuilder content = new StringBuilder(paragraph + description);
 		copiedList.forEach(path -> {
 			content.append(lineSeparator + path);
 		});
 		writeToFile(content);
 	}
 
-	public void logCreatedDirectories(TreeSet<Path> createdList, boolean isNewParagraph)
+	public void logCreatedDirectories(TreeSet<Path> createdList)
 	{
 		final String description = "Created directories:";
-		StringBuilder content = new StringBuilder(isNewParagraph ? paragraph + description : description);
+		StringBuilder content = new StringBuilder(paragraph + description);
 		createdList.forEach(path -> {
 			content.append(lineSeparator + path);
 		});
@@ -59,19 +59,19 @@ public class Logger
 		writeToFile(content);
 	}
 
-	public void logFilesToCopy(ArrayList<MyFile> files, boolean isNewParagraph)
+	public void logFilesToCopy(ArrayList<MyFile> files)
 	{
 		final String description = "Files to copy:";
-		StringBuilder content = new StringBuilder(isNewParagraph ? paragraph + description : description);
+		StringBuilder content = new StringBuilder(paragraph + description);
 		files.forEach(file -> {
 			content.append(lineSeparator + file.getSourceFile() + "->" + file.getTargetFile());
 		});
 		writeToFile(content);
 	}
 
-	public void logFilteredDirectories(ArrayList<Directory> directories, boolean isNewParagraph, String description)
+	public void logFilteredDirectories(ArrayList<Directory> directories, String description)
 	{
-		StringBuilder content = new StringBuilder(isNewParagraph ? paragraph + description : description);
+		StringBuilder content = new StringBuilder(paragraph + description);
 		directories.forEach(directory -> {
 			content.append(lineSeparator + directory.getSourcePath());
 		});
