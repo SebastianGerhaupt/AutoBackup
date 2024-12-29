@@ -11,10 +11,10 @@ public class Logger
 	private String lineSeparator = System.lineSeparator(), paragraph = lineSeparator + lineSeparator;
 	private Path logFile;
 
-	public Logger(Path path, String fileName, boolean newLog)
+	public Logger(Path path, String fileName, boolean overwriteLog)
 	{
 		logFile = Paths.get(path.toString(), fileName);
-		if (newLog || !newLog && !Files.exists(logFile))
+		if (!Files.exists(logFile) || overwriteLog)
 		{
 			try
 			{
@@ -29,55 +29,52 @@ public class Logger
 		}
 	}
 
-	public void logCopiedFiles(ArrayList<Path> copiedList)
+	public void logCopiedFiles(ArrayList<Path> copiedFileList)
 	{
-		final String description = "Copied files:";
-		StringBuilder content = new StringBuilder(paragraph + description);
-		copiedList.forEach(path -> {
+		StringBuilder content = new StringBuilder(paragraph + "Copied files:");
+		copiedFileList.forEach(path -> {
 			content.append(lineSeparator + path);
 		});
 		writeToFile(content);
 	}
 
-	public void logCreatedDirectories(TreeSet<Path> createdList)
+	public void logCreatedDirectories(TreeSet<Path> createdDirectorySet)
 	{
-		final String description = "Created directories:";
-		StringBuilder content = new StringBuilder(paragraph + description);
-		createdList.forEach(path -> {
+		StringBuilder content = new StringBuilder(paragraph + "Created directories:");
+		createdDirectorySet.forEach(path -> {
 			content.append(lineSeparator + path);
 		});
 		writeToFile(content);
 	}
-
-	public void logDirectoriesToCopy(TreeSet<Directory> filteredDirectories, boolean isNewParagraph)
+	
+	public void logDirectoriesToCopy(TreeSet<Directory> filteredDirectorySet, boolean overwriteLog)
 	{
 		final String description = "Directories to copy:";
-		StringBuilder content = new StringBuilder(isNewParagraph ? paragraph + description : description);
-		filteredDirectories.forEach(directory -> {
+		StringBuilder content = new StringBuilder(overwriteLog ? description : paragraph + description);
+		filteredDirectorySet.forEach(directory -> {
 			content.append(lineSeparator + directory.getSourcePath() + "," + directory.getIsRecursive() + "->" + directory.getTargetPath());
 		});
 		writeToFile(content);
 	}
 
-	public void logFilesToCopy(ArrayList<MyFile> files)
+	public void logFilesToCopy(ArrayList<MyFile> fileList)
 	{
-		final String description = "Files to copy:";
-		StringBuilder content = new StringBuilder(paragraph + description);
-		files.forEach(file -> {
+		StringBuilder content = new StringBuilder(paragraph + "Files to copy:");
+		fileList.forEach(file -> {
 			content.append(lineSeparator + file.getSourceFile() + "->" + file.getTargetFile());
 		});
 		writeToFile(content);
 	}
 
-	public void logFilteredDirectories(ArrayList<Directory> directories, String description)
+	public void logFilteredDirectories(ArrayList<Directory> filteredDirectoryList, String description)
 	{
 		StringBuilder content = new StringBuilder(paragraph + description);
-		directories.forEach(directory -> {
+		filteredDirectoryList.forEach(directory -> {
 			content.append(lineSeparator + directory.getSourcePath());
 		});
 		writeToFile(content);
 	}
-
+	
 	private void writeToFile(StringBuilder content)
 	{
 		try

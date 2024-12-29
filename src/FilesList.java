@@ -11,22 +11,22 @@ import java.util.stream.Collectors;
 
 public class FilesList
 {
-	private ArrayList<MyFile> concatinatedFiles = new ArrayList<MyFile>(0);
-	private ArrayList<Path> copiedFiles = new ArrayList<Path>(0), sourceFiles = new ArrayList<Path>(0);
-	private TreeSet<Path> createdList = new TreeSet<Path>();
-	private TreeSet<Directory> filteredDirectories;
+	private ArrayList<MyFile> concatinatedFileList = new ArrayList<MyFile>(0);
+	private ArrayList<Path> copiedFileList = new ArrayList<Path>(0), sourceFileList = new ArrayList<Path>(0);
+	private TreeSet<Path> createdDirectorySet = new TreeSet<Path>();
+	private TreeSet<Directory> filteredDirectorySet;
 
-	public FilesList(TreeSet<Directory> directories)
+	public FilesList(TreeSet<Directory> filteredDirectorySet)
 	{
-		filteredDirectories = directories;
+		this.filteredDirectorySet = filteredDirectorySet;
 	}
-
+	
 	public void addSourceFiles()
 	{
-		filteredDirectories.forEach(directory -> {
+		filteredDirectorySet.forEach(directory -> {
 			try
 			{
-				sourceFiles.addAll(Files.list(Paths.get(directory.getSourcePath().toString())).filter(Files::isRegularFile).sorted().collect(Collectors.toList()));
+				sourceFileList.addAll(Files.list(Paths.get(directory.getSourcePath().toString())).filter(Files::isRegularFile).sorted().collect(Collectors.toList()));
 			}
 			catch (IOException e)
 			{
@@ -35,48 +35,48 @@ public class FilesList
 			}
 		});
 	}
-
+	
 	public void concatinateTargetFiles()
 	{
-		sourceFiles.forEach(file -> {
-			filteredDirectories.forEach(directory -> {
+		sourceFileList.forEach(file -> {
+			filteredDirectorySet.forEach(directory -> {
 				if (file.getParent().equals(directory.getSourcePath()))
-					concatinatedFiles.add(new MyFile(file, Paths.get(directory.getTargetPath(), file.getFileName().toString())));
+					concatinatedFileList.add(new MyFile(file, Paths.get(directory.getTargetPath(), file.getFileName().toString())));
 			});
 		});
 	}
 
 	public void copyFiles()
 	{
-		final int total = concatinatedFiles.size();
-		concatinatedFiles.forEach(file -> {
+		final int total = concatinatedFileList.size();
+		concatinatedFileList.forEach(file -> {
 			try
 			{
-				createdList.add(Files.createDirectories(file.getTargetFile().getParent()));
-				copiedFiles.add(Files.copy(file.getSourceFile(), file.getTargetFile(), StandardCopyOption.REPLACE_EXISTING));
+				createdDirectorySet.add(Files.createDirectories(file.getTargetFile().getParent()));
+				copiedFileList.add(Files.copy(file.getSourceFile(), file.getTargetFile(), StandardCopyOption.REPLACE_EXISTING));
 			}
 			catch (IOException e)
 			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.print("\r" + copiedFiles.size() + " von " + total);
+			System.out.print("\r" + copiedFileList.size() + " von " + total);
 		});
 		System.out.print(System.lineSeparator());
 	}
-
-	public ArrayList<MyFile> getConcatinatedFiles()
+	
+	public ArrayList<MyFile> getConcatinatedFileList()
 	{
-		return concatinatedFiles;
+		return concatinatedFileList;
 	}
 
-	public ArrayList<Path> getCopiedFiles()
+	public ArrayList<Path> getCopiedFileList()
 	{
-		return copiedFiles;
+		return copiedFileList;
 	}
-
-	public TreeSet<Path> getCreatedDirectories()
+	
+	public TreeSet<Path> getCreatedDirectorySet()
 	{
-		return createdList;
+		return createdDirectorySet;
 	}
 }
