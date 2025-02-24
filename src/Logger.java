@@ -8,12 +8,13 @@ import java.util.TreeSet;
 
 public class Logger
 {
-	private String lineSeparator = System.lineSeparator(), paragraph = lineSeparator + lineSeparator;
+	private String lineSeparator = System.lineSeparator();
 	private Path logFile;
+	private String paragraph = lineSeparator + lineSeparator;
 
-	public Logger(Path path, String fileName, boolean overwriteLog)
+	public Logger(Path configPath, String fileName, boolean overwriteLog)
 	{
-		logFile = Paths.get(path.toString(), fileName);
+		logFile = Paths.get(configPath.toString(), fileName);
 		if (!Files.exists(logFile) || overwriteLog)
 		{
 			try
@@ -57,10 +58,10 @@ public class Logger
 		writeToFile(content);
 	}
 
-	public void logFilesToCopy(ArrayList<MyFile> fileList)
+	public void logFilesToCopy(ArrayList<MyFile> concatinatedFileList)
 	{
 		StringBuilder content = new StringBuilder(paragraph + "Files to copy:");
-		fileList.forEach(file -> {
+		concatinatedFileList.forEach(file -> {
 			content.append(lineSeparator + file.getSourceFile() + "->" + file.getTargetFile());
 		});
 		writeToFile(content);

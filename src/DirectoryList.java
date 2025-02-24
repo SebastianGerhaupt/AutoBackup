@@ -10,13 +10,15 @@ import java.util.stream.Collectors;
 
 public class DirectoryList
 {
-	private ArrayList<Directory> duplicateDirectoryList = new ArrayList<Directory>(0),  emptyDirectoryList = new ArrayList<Directory>(0), sourceDirectoryList = new ArrayList<Directory>(0);
+	private ArrayList<Directory> duplicateDirectoryList = new ArrayList<Directory>(0);
+	private ArrayList<Directory> emptyDirectoryList = new ArrayList<Directory>(0);
 	private TreeSet<Directory> filteredDirectorySet = new TreeSet<Directory>();
+	private ArrayList<Directory> sourceDirectoryList = new ArrayList<Directory>(0);
 	private String targetPath;
 	
-	public DirectoryList(Path path)
+	public DirectoryList(Path targetPath)
 	{
-		targetPath = path.toString();
+		this.targetPath = targetPath.toString();
 	}
 
 	public void addRecursiveDirectories()
@@ -42,15 +44,14 @@ public class DirectoryList
 		});
 	}
 	
-	public void addSourceDirectories(Path path, String fileName)
+	public void addSourceDirectories(Path configPath, String fileName)
 	{
-		try (Scanner scanner = new Scanner(Paths.get(path.toString(), fileName)).useDelimiter(",|\\R"))
+		try (Scanner scanner = new Scanner(Paths.get(configPath.toString(), fileName)).useDelimiter(",|\\R"))
 		{
 			while (scanner.hasNextLine())
 			{
 				final String directory = scanner.next();
-				final boolean isRecursive = Boolean.parseBoolean(scanner.next());
-				sourceDirectoryList.add(new Directory(Paths.get(directory), isRecursive, Paths.get(targetPath, directory.replace(":", ""))));
+				sourceDirectoryList.add(new Directory(Paths.get(directory), Boolean.parseBoolean(scanner.next()), Paths.get(targetPath, directory.replace(":", ""))));
 			}
 			scanner.close();
 		}

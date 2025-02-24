@@ -6,13 +6,14 @@ public class App
 {
 	public static void main(String[] args) throws Exception
 	{
-		final boolean log = true, overwriteLog = true;
+		final boolean log = true;
+		final boolean overwriteLog = true;
 		Logger logger;
-		final Path path = Paths.get("C:", "Users", "gerha", "Java-Projekte", "AutoBackup", "src");
+		final Path configPath = Paths.get("C:", "Users", "gerha", "Java-Projekte", "AutoBackup", "src");
 		if (log)
-			logger = new Logger(path, "log.txt", overwriteLog);
+			logger = new Logger(configPath, "log.txt", overwriteLog);
 		DirectoryList directoryList = new DirectoryList(Paths.get("E:"));
-		directoryList.addSourceDirectories(path, "sources.txt");
+		directoryList.addSourceDirectories(configPath, "sources.txt");
 		directoryList.addRecursiveDirectories();
 		directoryList.filterEmptyDirectories();
 		directoryList.filterDuplicateDirectories();

@@ -3,8 +3,8 @@
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -12,9 +12,10 @@ import java.util.stream.Collectors;
 public class FilesList
 {
 	private ArrayList<MyFile> concatinatedFileList = new ArrayList<MyFile>(0);
-	private ArrayList<Path> copiedFileList = new ArrayList<Path>(0), sourceFileList = new ArrayList<Path>(0);
+	private ArrayList<Path> copiedFileList = new ArrayList<Path>(0);
 	private TreeSet<Path> createdDirectorySet = new TreeSet<Path>();
 	private TreeSet<Directory> filteredDirectorySet;
+	private ArrayList<Path> sourceFileList = new ArrayList<Path>(0);
 
 	public FilesList(TreeSet<Directory> filteredDirectorySet)
 	{

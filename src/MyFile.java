@@ -2,7 +2,8 @@ import java.nio.file.Path;
 
 public class MyFile
 {
-	private Path sourceFile, targetFile;
+	private Path sourceFile;
+	private Path targetFile;
 	
 	public MyFile(Path sourceFile, Path targetFile)
 	{
